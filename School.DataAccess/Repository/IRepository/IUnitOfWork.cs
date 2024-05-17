@@ -7,9 +7,10 @@ using School.Models.Models;
 
 namespace School.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         IRepository<Student> Student { get; }
+        IQualificationsRepository Qualifications { get; }
         void Save();
     }
 }

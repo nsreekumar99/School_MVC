@@ -116,7 +116,8 @@ namespace SchoolManagement.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    //return LocalRedirect(returnUrl);
+                    return RedirectToAction("Index", "QualificationsMV", new { area = "Students" });
                 }
                 if (result.RequiresTwoFactor)
                 {

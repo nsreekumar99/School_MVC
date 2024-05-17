@@ -6,6 +6,7 @@ using School.DataAccess.DbInitializer;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using School.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using School.DataAccess.Repository.IRepository;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -31,6 +32,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddRazorPages();

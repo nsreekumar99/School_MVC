@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using School.Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace School.DataAccess.Repository.IRepository
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _db;
 
@@ -16,9 +17,11 @@ namespace School.DataAccess.Repository.IRepository
         {
             _db = db;
             Student = new Repository<Student>(_db);
+            Qualifications = new QualificationsRepository(_db);
         }
 
         public IRepository<Student> Student { get; private set; }
+        public IQualificationsRepository Qualifications { get; private set; }
 
         public void Save()
         {
