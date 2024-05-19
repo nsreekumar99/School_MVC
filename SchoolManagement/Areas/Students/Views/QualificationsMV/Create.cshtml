@@ -1,0 +1,40 @@
+﻿@model School.Models.Models.Qualifications
+
+@{
+    ViewData["Title"] = "Create Qualification";
+}
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Course" class="control-label"></label>
+        <input asp-for="Course" class="form-control" />
+        <span asp-validation-for="Course" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="University" class="control-label"></label>
+        <input asp-for="University" class="form-control" />
+        <span asp-validation-for="University" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StartYear" class="control-label"></label>
+        <input asp-for="StartYear" class="form-control" />
+        <span asp-validation-for="StartYear" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EndYear" class="control-label"></label>
+        <input asp-for="EndYear" class="form-control" />
+        <span asp-validation-for="EndYear" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Percentage" class="control-label"></label>
+        <input asp-for="Percentage" class="form-control" />
+        <span asp-validation-for="Percentage" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

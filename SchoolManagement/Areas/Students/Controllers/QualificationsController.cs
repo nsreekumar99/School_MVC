@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using School.DataAccess.Repository.IRepository;
 using School.Models.Models;
+using System.Security.Claims;
 
 namespace SchoolManagement.Areas.Students.Controllers
 {
@@ -20,7 +21,8 @@ namespace SchoolManagement.Areas.Students.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var qualifications = _unitOfWork.Qualifications.GetAll();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var qualifications = _unitOfWork.Qualifications.GetAll(q=> q.ApplicationUserId == userId);
             return Ok(qualifications);
         }
 
