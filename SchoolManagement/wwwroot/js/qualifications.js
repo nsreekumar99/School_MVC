@@ -13,9 +13,30 @@
             {
                 data: null,
                 className: "center",
-                defaultContent: '<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>'
+                /*defaultContent: '<button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>'*/
+                defaultContent: `
+                    <form class="edit-form" method="get" action="/Students/QualificationsMV/Edit" style="display:inline;">
+                        <input type="hidden" name="id" value="">
+                        <button type="submit" class="edit-btn">Edit</button>
+                    </form>
+                    <form class="delete-form" method="post" action="/Students/QualificationsMV/Delete" style="display:inline;">
+                        <input type="hidden" name="id" value="">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                `
             }
         ]
+    });
+
+    // Fill the hidden input with the qualification ID
+    $('#qualificationsTable tbody').on('click', 'button.edit-btn', function () {
+        var data = table.row($(this).parents('tr')).data();
+        $(this).siblings('input[name="id"]').val(data.id);
+    });
+
+    $('#qualificationsTable tbody').on('click', 'button.delete-btn', function () {
+        var data = table.row($(this).parents('tr')).data();
+        $(this).siblings('input[name="id"]').val(data.id);
     });
 
     // Open add qualification modal

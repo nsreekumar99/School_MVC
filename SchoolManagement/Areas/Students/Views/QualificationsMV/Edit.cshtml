@@ -1,13 +1,18 @@
 ﻿@model School.Models.Models.Qualifications
 
 @{
-    ViewData["Title"] = "Create Qualification";
+    ViewData["Title"] = "Edit Qualification";
 }
 
-<form asp-action="Create">
+<h2>Edit Qualification</h2>
+
+<form asp-action="Edit">
+
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="ApplicationUserId" />
+
     <div class="form-group">
+        <input type="hidden" asp-for="Id" />
         <label asp-for="Course" class="control-label"></label>
         <input asp-for="Course" class="form-control" />
         <span asp-validation-for="Course" class="text-danger"></span>
@@ -33,7 +38,7 @@
         <span asp-validation-for="Percentage" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>
 

@@ -25,7 +25,11 @@ namespace SchoolManagement.Areas.Students.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var qualification = new Qualifications
+            {
+                ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+            };
+            return View(qualification);
         }
 
         // POST: Create Qualification
@@ -35,16 +39,45 @@ namespace SchoolManagement.Areas.Students.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             ModelState.Remove("ApplicationUser");
-            ModelState.Remove("ApplicationUserId");
             if (ModelState.IsValid)
             {
-                qualification.ApplicationUserId = userId;
+                //qualification.ApplicationUserId = userId;
                 _unitOfWork.Qualifications.Add(qualification);
                 _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
             return View(qualification);
         }
+
+        // GET: Edit Qualification
+        public IActionResult Edit(int id)
+        {
+            var qualification = _unitOfWork.Qualifications.Get(id); // qualifications.js requests the the qualification based on id
+                                                                    // from controller when use presses edit/delete button
+            if (qualification == null || qualification.ApplicationUserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                return NotFound();
+            }
+            return View(qualification); //passes the qualification details based on id
+        }
+
+        // POST: Edit Qualification
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Qualifications qualification)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ModelState.Remove("ApplicationUser");
+            
+            if (ModelState.IsValid && qualification.ApplicationUserId == userId)
+            {
+                _unitOfWork.Qualifications.Update(qualification);
+                _unitOfWork.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(qualification);
+        }
+
 
     }
 }
