@@ -1,5 +1,9 @@
 ﻿@* @model List<Qualifications>; *@
 
+<form id="deleteQualificationForm" method="post">
+    @Html.AntiForgeryToken()
+</form>
+
 <div id="dashboard">
     <div class="card shadow border-0 my-4">
         <div class="card-header bg-secondary bg-gradient ml-0 py-3">

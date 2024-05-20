@@ -39,6 +39,57 @@
         $(this).siblings('input[name="id"]').val(data.id);
     });
 
+    // Handle delete confirmation with SweetAlert2
+    // delete button takes in id from datatable.
+    $('#qualificationsTable tbody').on('click', 'button.delete-btn', function (e) {
+        e.preventDefault();
+        var data = table.row($(this).parents('tr')).data();
+        var qualificationId = data.id;
+
+        // SweetAlert2 confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this qualification!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // User confirmed deletion, send AJAX request to delete the qualification
+                $.ajax({
+                    url: '/Students/QualificationsMV/Delete',
+                    type: 'POST',
+                    data: {
+                        id: qualificationId,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // Include anti-forgery token
+                    },
+                    success: function (result) {
+                        // Reload table data after successful deletion
+                        table.ajax.reload();
+                        // Show success message
+                        Swal.fire(
+                            'Deleted!',
+                            'The qualification has been deleted.',
+                            'success'
+                        );
+                    },
+                    error: function (xhr, status, error) {
+                        // error message if deletion fails
+                        Swal.fire(
+                            'Error!',
+                            'Failed to delete the qualification.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+
+
     // Open add qualification modal
     $('#addQualificationBtn').on('click', function () {
         $('#addQualificationModal').show();
@@ -67,17 +118,5 @@
         });
     });
 
-    // Handle delete qualification
-    $('#qualificationsTable tbody').on('click', 'button.delete-btn', function () {
-        var data = table.row($(this).parents('tr')).data();
-        if (confirm("Are you sure you want to delete this qualification?")) {
-            $.ajax({
-                url: '/api/qualifications/' + data.id,
-                type: 'DELETE',
-                success: function (result) {
-                    table.ajax.reload();
-                }
-            });
-        }
-    });
+
 });

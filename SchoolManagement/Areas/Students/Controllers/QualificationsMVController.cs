@@ -78,6 +78,23 @@ namespace SchoolManagement.Areas.Students.Controllers
             return View(qualification);
         }
 
+        // POST: Delete Qualification
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var qualification = _unitOfWork.Qualifications.Get(id);
+            if (qualification == null || qualification.ApplicationUserId != userId)
+            {
+                return NotFound();
+            }
+
+            _unitOfWork.Qualifications.Remove(qualification);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
 
     }
 }
